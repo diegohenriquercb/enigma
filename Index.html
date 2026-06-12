@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Missão Galáctica</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(45, 70, 140, 0.45), transparent 35%),
+        radial-gradient(circle at bottom, rgba(120, 80, 190, 0.35), transparent 35%),
+        #050510;
+      color: #f7e9a6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(#ffffff 1px, transparent 1px),
+        radial-gradient(#ffffff 1px, transparent 1px),
+        radial-gradient(#ffe76b 1px, transparent 1px);
+      background-size: 80px 80px, 130px 130px, 210px 210px;
+      background-position: 0 0, 40px 60px, 100px 140px;
+      opacity: 0.25;
+      z-index: -2;
+      animation: estrelas 20s linear infinite;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.78)),
+        radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.45));
+      z-index: -1;
+    }
+
+    @keyframes estrelas {
+      from {
+        background-position: 0 0, 40px 60px, 100px 140px;
+      }
+
+      to {
+        background-position: 0 340px, 40px 460px, 100px 600px;
+      }
+    }
+
+    .container {
+      width: min(92%, 860px);
+      margin: 0 auto;
+      padding: 42px 0;
+    }
+
+    .card {
+      background: rgba(5, 8, 25, 0.9);
+      border: 1px solid rgba(247, 218, 99, 0.45);
+      box-shadow:
+        0 0 25px rgba(247, 218, 99, 0.18),
+        inset 0 0 25px rgba(54, 82, 180, 0.16);
+      border-radius: 24px;
+      padding: 32px;
+      text-align: center;
+      backdrop-filter: blur(6px);
+      animation: aparecer 0.7s ease;
+    }
+
+    @keyframes aparecer {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .selo {
+      display: inline-block;
+      padding: 8px 16px;
+      border: 1px solid rgba(247, 218, 99, 0.5);
+      border-radius: 999px;
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      color: #ffe76b;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      background: rgba(247, 218, 99, 0.08);
+    }
+
+    h1,
+    h2 {
+      margin: 0 0 18px;
+      color: #ffe76b;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 12px rgba(255, 231, 107, 0.5);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 4rem);
+    }
+
+    h2 {
+      font-size: clamp(1.35rem, 4vw, 2.15rem);
+    }
+
+    p {
+      color: #f4e8c1;
+      line-height: 1.7;
+      font-size: 1.05rem;
+    }
+
+    .texto-missao {
+      max-width: 650px;
+      margin: 0 auto 22px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      padding: 14px 24px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ffe76b, #c99027);
+      color: #121212;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 0 18px rgba(255, 231, 107, 0.45);
+      transition: 0.25s;
+      margin-top: 12px;
+    }
+
+    button:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 25px rgba(255, 231, 107, 0.75);
+    }
+
+    input {
+      width: min(100%, 430px);
+      padding: 15px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 231, 107, 0.6);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      outline: none;
+      text-align: center;
+      font-size: 1.05rem;
+      margin-top: 15px;
+      text-transform: uppercase;
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+      text-transform: none;
+    }
+
+    .codigo {
+      display: inline-block;
+      padding: 16px 24px;
+      margin: 18px 0;
+      border-radius: 16px;
+      background: rgba(255, 231, 107, 0.1);
+      border: 1px dashed rgba(255, 231, 107, 0.65);
+      color: #ffe76b;
+      font-size: 1.25rem;
+      letter-spacing: 3px;
+      font-weight: bold;
+      line-height: 1.6;
+    }
+
+    .erro {
+      color: #ff8585;
+      margin-top: 14px;
+      min-height: 24px;
+      font-weight: bold;
+    }
+
+    .sucesso {
+      color: #9cffc7;
+      margin-top: 14px;
+      min-height: 24px;
+      font-weight: bold;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .progresso {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    .ponto {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      border: 1px solid #ffe76b;
+      opacity: 0.45;
+      transition: 0.25s;
+    }
+
+    .ponto.ativo {
+      background: #ffe76b;
+      opacity: 1;
+      box-shadow: 0 0 12px #ffe76b;
+    }
+
+    .final-box {
+      border: 1px solid rgba(156, 255, 199, 0.5);
+      background: rgba(156, 255, 199, 0.08);
+      padding: 22px;
+      border-radius: 18px;
+      margin-top: 20px;
+    }
+
+    .botao-link {
+      display: inline-block;
+      text-decoration: none;
+      padding: 15px 25px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #9cffc7, #42c7ff);
+      color: #081018;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 15px;
+      box-shadow: 0 0 20px rgba(66, 199, 255, 0.45);
+      transition: 0.25s;
+    }
+
+    .botao-link:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 28px rgba(66, 199, 255, 0.75);
+    }
+
+    .dica-fisica {
+      font-size: 0.95rem;
+      color: #cfd7ff;
+      opacity: 0.9;
+      margin-top: 18px;
+    }
+
+    .crawl {
+      max-width: 650px;
+      margin: 0 auto 25px;
+      color: #ffe76b;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    .linha {
+      width: min(100%, 480px);
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(255, 231, 107, 0.8), transparent);
+      margin: 24px auto;
+    }
+
+    .aviso {
+      color: #cfd7ff;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 520px) {
+      .container {
+        padding: 28px 0;
+      }
+
+      .card {
+        padding: 24px 18px;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      .codigo {
+        font-size: 1rem;
+        letter-spacing: 2px;
+        padding: 14px 16px;
+      }
+
+      button,
+      .botao-link {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+
+    <section id="inicio" class="card">
+      <span class="selo">Transmissão recebida</span>
+
+      <h1>Missão Galáctica</h1>
+
+      <div class="crawl">
+        Uma mensagem foi interceptada em algum ponto distante da galáxia.
+        O acesso final está protegido por sinais, códigos e pequenas missões.
+      </div>
+
+      <div class="linha"></div>
+
+      <p class="texto-missao">
+        Para liberar o portal secreto, será preciso observar, decifrar e seguir cada pista com atenção.
+        Nem tudo estará escrito de forma óbvia.
+      </p>
+
+      <p class="aviso">
+        Quando estiver pronta, inicie a missão.
+      </p>
+
+      <button onclick="iniciarMissao()">Iniciar missão</button>
+    </section>
+
+    <section id="jogo" class="card hidden">
+      <div class="progresso">
+        <span class="ponto ativo" id="ponto1"></span>
+        <span class="ponto" id="ponto2"></span>
+        <span class="ponto" id="ponto3"></span>
+        <span class="ponto" id="ponto4"></span>
+        <span class="ponto" id="ponto5"></span>
+        <span class="ponto" id="ponto6"></span>
+        <span class="ponto" id="ponto7"></span>
+      </div>
+
+      <h2 id="tituloMissao"></h2>
+
+      <p id="textoMissao" class="texto-missao"></p>
+
+      <div id="codigoMissao" class="codigo hidden"></div>
+
+      <p id="dicaFisica" class="dica-fisica"></p>
+
+      <input
+        id="resposta"
+        type="text"
+        placeholder="Digite a resposta aqui"
+        autocomplete="off"
+      />
+
+      <br />
+
+      <button onclick="verificarResposta()">Enviar resposta</button>
+
+      <div id="mensagem" class="erro"></div>
+    </section>
+
+    <section id="final" class="card hidden">
+      <span class="selo">Acesso autorizado</span>
+
+      <h1>Missão concluída</h1>
+
+      <p class="texto-missao">
+        Os sinais foram encontrados.
+        Os códigos foram decifrados.
+        O portal está aberto.
+      </p>
+
+      <div class="final-box">
+        <p>
+          Você desbloqueou o acesso secreto.
+        </p>
+
+        <a id="botaoFinal" class="botao-link" href="#" target="_blank">
+          Abrir surpresa
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const LINK_DO_SITE_SURPRESA = "https://diegohenriquercb.github.io/dia-dos-namorados/";
+
+    const missoes = [
+      {
+        titulo: "Missão 1: O primeiro sinal",
+        texto: "Toda transmissão começa com um sinal. Antes de procurar longe, observe o lugar onde a missão chegou até você. Uma palavra curta foi deixada na caixa, quase como uma faísca no escuro.",
+        codigo: "",
+        dica: "Dica: o primeiro sinal está na caixa.",
+        resposta: "LUZ",
+        sucesso: "Primeiro sinal identificado. A transmissão foi estabilizada."
+      },
+      {
+        titulo: "Missão 2: O registro escondido",
+        texto: "Algumas mensagens importantes não aparecem no centro da transmissão. Elas ficam nas margens, no fim, onde só quem observa com calma consegue encontrar.",
+        codigo: "",
+        dica: "Dica: volte à carta de convocação e procure uma palavra discreta.",
+        resposta: "TELA",
+        sucesso: "Registro encontrado. A próxima frequência foi liberada."
+      },
+      {
+        titulo: "Missão 3: Frequência codificada",
+        texto: "A transmissão seguinte chegou apenas em números. Para entender a mensagem, pense nas letras como posições dentro de uma sequência conhecida.",
+        codigo: "3 - 5 - 21",
+        dica: "Dica: comece pelo começo da sequência das letras.",
+        resposta: "CEU",
+        respostasAlternativas: ["CÉU"],
+        sucesso: "Frequência decifrada. O mapa da galáxia começou a aparecer."
+      },
+      {
+        titulo: "Missão 4: Caminho em órbita",
+        texto: "Um corpo em órbita nunca fica parado, mas também não se perde. Ele segue um caminho ao redor de algo maior. Qual palavra representa esse caminho circular?",
+        codigo: "",
+        dica: "Dica: começa com O e está ligada ao movimento dos planetas.",
+        resposta: "ORBITA",
+        respostasAlternativas: ["ÓRBITA"],
+        sucesso: "Rota orbital confirmada. A nave segue em direção ao próximo sinal."
+      },
+      {
+        titulo: "Missão 5: Coordenada perdida",
+        texto: "Outra mensagem numérica foi encontrada. Agora você já viu como números podem esconder letras. Decifre a palavra e siga para a próxima etapa.",
+        codigo: "5 - 19 - 20 - 18 - 5 - 12 - 1",
+        dica: "Dica: use a mesma lógica da frequência codificada.",
+        resposta: "ESTRELA",
+        sucesso: "Coordenada localizada. Uma estrela foi marcada no mapa."
+      },
+      {
+        titulo: "Missão 6: O acesso entre mundos",
+        texto: "Não é uma porta comum, mas permite passagem. Não precisa de chave, mas só abre quando o caminho certo é encontrado. Em muitas histórias, ele liga um lugar a outro.",
+        codigo: "",
+        dica: "Dica: é como uma passagem secreta entre dois destinos.",
+        resposta: "PORTAL",
+        sucesso: "Portal reconhecido. A última missão foi desbloqueada."
+      },
+      {
+        titulo: "Missão 7: A mensagem ampliada",
+        texto: "A última mensagem não quer ficar pequena. Ela quer atravessar a tela, encontrar o escuro e crescer diante dos olhos. Quando uma imagem é lançada para aparecer maior, isso recebe um nome.",
+        codigo: "",
+        dica: "Dica: não é o objeto. É o efeito de lançar uma imagem para que ela apareça maior.",
+        resposta: "PROJECAO",
+        respostasAlternativas: ["PROJEÇÃO"],
+        sucesso: "Missão concluída. O acesso final foi liberado."
+      }
+    ];
+
+    let missaoAtual = 0;
+
+    function iniciarMissao() {
+      document.getElementById("inicio").classList.add("hidden");
+      document.getElementById("jogo").classList.remove("hidden");
+      carregarMissao();
+    }
+
+    function carregarMissao() {
+      const missao = missoes[missaoAtual];
+
+      document.getElementById("tituloMissao").textContent = missao.titulo;
+      document.getElementById("textoMissao").textContent = missao.texto;
+      document.getElementById("dicaFisica").textContent = missao.dica;
+      document.getElementById("resposta").value = "";
+      document.getElementById("mensagem").textContent = "";
+      document.getElementById("mensagem").className = "erro";
+
+      const codigo = document.getElementById("codigoMissao");
+
+      if (missao.codigo) {
+        codigo.textContent = missao.codigo;
+        codigo.classList.remove("hidden");
+      } else {
+        codigo.classList.add("hidden");
+      }
+
+      atualizarProgresso();
+
+      setTimeout(() => {
+        document.getElementById("resposta").focus();
+      }, 200);
+    }
+
+    function atualizarProgresso() {
+      for (let i = 1; i <= missoes.length; i++) {
+        const ponto = document.getElementById("ponto" + i);
+
+        if (ponto) {
+          if (i <= missaoAtual + 1) {
+            ponto.classList.add("ativo");
+          } else {
+            ponto.classList.remove("ativo");
+          }
+        }
+      }
+    }
+
+    function normalizarTexto(texto) {
+      return texto
+        .trim()
+        .toUpperCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function verificarResposta() {
+      const input = document.getElementById("resposta");
+      const mensagem = document.getElementById("mensagem");
+      const respostaDigitada = normalizarTexto(input.value);
+      const missao = missoes[missaoAtual];
+
+      const respostaCorreta = normalizarTexto(missao.resposta);
+
+      let alternativas = [];
+
+      if (missao.respostasAlternativas) {
+        alternativas = missao.respostasAlternativas.map(function(resposta) {
+          return normalizarTexto(resposta);
+        });
+      }
+
+      if (respostaDigitada === respostaCorreta || alternativas.includes(respostaDigitada)) {
+        mensagem.className = "sucesso";
+        mensagem.textContent = missao.sucesso;
+
+        setTimeout(function() {
+          missaoAtual++;
+
+          if (missaoAtual < missoes.length) {
+            carregarMissao();
+          } else {
+            mostrarFinal();
+          }
+        }, 1200);
+
+      } else {
+        mensagem.className = "erro";
+        mensagem.textContent = "Resposta incorreta. Observe melhor os sinais e tente novamente.";
+      }
+    }
+
+    function mostrarFinal() {
+      document.getElementById("jogo").classList.add("hidden");
+      document.getElementById("final").classList.remove("hidden");
+
+      const botaoFinal = document.getElementById("botaoFinal");
+      botaoFinal.href = LINK_DO_SITE_SURPRESA;
+    }
+
+    document.getElementById("resposta").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        verificarResposta();
+      }
+    });
+  </script>
+</body>
+</html>
